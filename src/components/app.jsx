@@ -89,7 +89,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="grid-x align-middle align-center ">
-            <h1 className="myreads cell large-6 small-12 App-title align-self-middle align-self-center text-center">My Reads</h1>
+            <Link className="cell large-6 small-12 App-title align-self-middle align-self-center text-center" to="/"><h1 className="myreads ">My Reads</h1></Link>
             <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
               <AwesomeButton size="large" type="primary">Search</AwesomeButton>
             </Link>
@@ -118,14 +118,16 @@ class App extends Component {
                 </article>
               </div>
               <div className="cell large-12">
-                <h2>Read</h2>
+                <div className="grid-y">
+                <h2 className="cell large-auto">Read</h2>
                 <hr></hr>
-                <article>
+                <article className="cell">
                   <Read
                     changeShelf={this.changeShelf}
                     books={this.state.books}
                     />
                 </article>
+              </div>
               </div>
             </main>
           }></Route>

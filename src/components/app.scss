@@ -8,7 +8,9 @@ header {
    padding: 1rem 0;
 }
 h1 {
-  font-weight: 900
+  font-weight: 900;
+  font-family: 'Montserrat';
+   color: black;
 }
 li {
   list-style: none;
@@ -31,4 +33,12 @@ h2 {
     column-gap: 20px;
     border: solid blue 2px;
   }
+}
+.searchPad {
+  display: flex;
+  min-height: 75vh;
+  justify-content: center;
+  margin: auto;
+  align-items: center;
+  padding: 0 2rem;
 }
