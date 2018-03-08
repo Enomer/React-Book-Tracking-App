@@ -1,0 +1,34 @@
+
+.App {
+  font-family: 'Montserrat';
+  font-weight: 700;
+}
+header {
+  min-height: 10vh;
+   padding: 1rem 0;
+}
+h1 {
+  font-weight: 900
+}
+li {
+  list-style: none;
+}
+.myreads {
+
+  position: relative;
+}
+.styling {
+  background: lavender;
+}
+h2 {
+  font-weight: 700
+}
+
+  ol {
+    border: solid #4F4CB1 2px;
+@include breakpoint(large) {
+    column-count: 2;
+    column-gap: 20px;
+    border: solid blue 2px;
+  }
+}

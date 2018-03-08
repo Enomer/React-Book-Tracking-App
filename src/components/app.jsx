@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './App.css';
 import Wanttoread from './shelves/wanttoread';
 import CurrentlyReading from './shelves/currentlyreading';
 import Read from './shelves/read';
 import { Link } from 'react-router-dom';
 import { AwesomeButton } from 'react-awesome-button';
+import { Route } from 'react-router-dom'
+import Search from './search/search'
 
 
 class App extends Component {
@@ -87,37 +88,52 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">My Reads<AwesomeButton type="primary">Search</AwesomeButton></h1>
+          <div className="grid-x align-middle align-center ">
+            <h1 className="myreads cell large-6 small-12 App-title align-self-middle align-self-center text-center">My Reads</h1>
+            <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
+              <AwesomeButton size="large" type="primary">Search</AwesomeButton>
+            </Link>
+          </div>
         </header>
-        <main>
-          <h2>Currently Reading</h2>
-          <hr></hr>
-          <article>
-            <CurrentlyReading
-              changeShelf={this.changeShelf}
-              books={this.state.books}
-              />
-          </article>
-          <h2>Want To Read</h2>
-          <hr></hr>
-          <article>
-            <Wanttoread
-              changeShelf={this.changeShelf}
-              books={this.state.books}
-              />
-          </article>
-          <h2>Read</h2>
-          <hr></hr>
-          <article>
-            <Read
-              changeShelf={this.changeShelf}
-              books={this.state.books}
-              />
-          </article>
-        </main>
-      </div>
-    );
+        <Route exact path="/" render={()=>
+            <main className="grid-container">
+              <div className="grid-x align-middle align-center">
+                <h2 className="">Currently Reading</h2>
+                <hr></hr>
+                <article className="cell align-self-middle">
+                  <CurrentlyReading className="cell align-self-middle"
+                    changeShelf={this.changeShelf}
+                    books={this.state.books}
+                    />
+                </article>
+              </div>
+              <div className="cell large-12">
+                <h2>Want To Read</h2>
+                <hr></hr>
+                <article>
+                  <Wanttoread
+                    changeShelf={this.changeShelf}
+                    books={this.state.books}
+                    />
+                </article>
+              </div>
+              <div className="cell large-12">
+                <h2>Read</h2>
+                <hr></hr>
+                <article>
+                  <Read
+                    changeShelf={this.changeShelf}
+                    books={this.state.books}
+                    />
+                </article>
+              </div>
+            </main>
+          }></Route>
+         <Route path="/search" component={Search} />
+        </div>
+      );
+    }
   }
-}
 
-export default App;
+
+  export default App;
