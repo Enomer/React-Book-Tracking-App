@@ -88,7 +88,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div className="grid-x align-middle align-center ">
+          <div className="grid-x align-middle align-center">
             <Link className="cell large-6 small-12 App-title align-self-middle align-self-center text-center" to="/"><h1 className="myreads ">My Reads</h1></Link>
             <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
               <AwesomeButton size="large" type="primary">Search</AwesomeButton>
@@ -96,18 +96,15 @@ class App extends Component {
           </div>
         </header>
         <Route exact path="/" render={()=>
-            <main className="grid-container">
-              <div className="grid-x align-middle align-center">
-                <h2 className="">Currently Reading</h2>
+            <main>
+                <h2>Currently Reading</h2>
                 <hr></hr>
-                <article className="cell align-self-middle">
-                  <CurrentlyReading className="cell align-self-middle"
+                <article>
+                  <CurrentlyReading
                     changeShelf={this.changeShelf}
                     books={this.state.books}
                     />
                 </article>
-              </div>
-              <div className="cell large-12">
                 <h2>Want To Read</h2>
                 <hr></hr>
                 <article>
@@ -116,19 +113,14 @@ class App extends Component {
                     books={this.state.books}
                     />
                 </article>
-              </div>
-              <div className="cell large-12">
-                <div className="grid-y">
-                <h2 className="cell large-auto">Read</h2>
+                <h2 >Read</h2>
                 <hr></hr>
-                <article className="cell">
+                <article>
                   <Read
                     changeShelf={this.changeShelf}
                     books={this.state.books}
                     />
                 </article>
-              </div>
-              </div>
             </main>
           }></Route>
          <Route path="/search" component={Search} />
