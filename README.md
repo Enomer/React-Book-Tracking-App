@@ -1,11 +1,10 @@
-##To Get Started
-
-npm run dev (equivalent to npm run start) 
-
 # Project Overview
 
 In this Book tracking mini app,  users select and categorize books they have read, are currently reading, or want to read. The project emphasized using React to build the application and provides an API server and client library persists information as the application is interacted with.
 
+# To Get Started
+
+npm run dev (equivalent to npm run start) 
 
 ## Features
 
