@@ -15,14 +15,14 @@ h1 {
 }
 li {
   list-style: none;
+  transition: all 0.5s ease;
 }
 .myreads {
-
   position: relative;
 }
 .styling {
   background: lavender;
-
+  min-height: 35vh;
 }
 h2 {
   font-weight: 700
@@ -30,17 +30,18 @@ h2 {
 
   ol {
     margin: 0;
+    transition: all 0.5s ease;
 
-// @include breakpoint(large) {
-//     column-count: 3;
-//     column-gap: 50px;
-//   }
+
+ // @include breakpoint(large) {
+ //     column-count: 3;
+ //    column-gap: 20px;
+ //   }
 }
 .searchPad {
-  display: flex;
-  min-height: 20vh;
-  justify-content: center;
-  margin: auto;
-  align-items: center;
+  min-height: 15vh;
   padding: 0 2rem;
+}
+#searchList {
+  display:flex;
 }

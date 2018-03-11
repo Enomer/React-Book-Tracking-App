@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 
 
 class Search extends Component {
   state = {
     inputChar: '',
     void: 'none',
-    alive: 'inherit'
+    alive: 'flex'
   }
   inputDetect = (query) => {
     this.setState({ inputChar: query })
@@ -35,20 +34,23 @@ class Search extends Component {
             onChange={(event) => this.inputDetect(event.target.value)}
             />
         </div>
-        <ol style={{display: emptySearch}}>
+        <ol id="searchList" className="grid-x styling" style={{display: emptySearch, padding: "2rem"}}>
           {showingBooks.map((book) => (
-            <li className={`cr-${book.id}`} key={book.id}>
-              <img alt={book.title} src={book.coverURL} style={{height:"250px", padding: "1.7rem"}}/>
-              <br></br>
-              <select defaultValue={book.shelf} onChange={(e) => this.props.changeShelf(e.target.value, book.id)}>
-                <option value="none" disabled>Move to...</option>
-                <option value="Currently Reading">Currently Reading</option>
-                <option value="Want to Read">Want to Read</option>
-                <option value="Read">Read</option>
-                <option value="none">None</option>
-              </select>
-              <h4>{book.title}</h4>
-              <h5>{book.author}</h5>
+            <li className={`cell large-4 medium-6 text-center align-center grid-x cr-${book.id}`} key={book.id}>
+              <div className="cell large-12">
+                <img alt={book.title} src={book.coverURL} style={{height:"250px", padding: "1.7rem"}}/>
+              </div>
+              <div className="cell grid-x align-center">
+                <select className="cell shrink" defaultValue={book.shelf} onChange={(e) => this.props.changeShelf(e.target.value, book.id)}>
+                  <option value="none" disabled>Move to...</option>
+                  <option value="Currently Reading">Currently Reading</option>
+                  <option value="Want to Read">Want to Read</option>
+                  <option value="Read">Read</option>
+                  <option value="none">None</option>
+                </select>
+              </div>
+              <h4 className="cell large-12 small-12">{book.title}</h4>
+              <h5 className="cell ">{book.author}</h5>
             </li>
           ))}
         </ol>

@@ -96,7 +96,7 @@ class App extends Component {
           </div>
         </header>
         <Route exact path="/" render={()=>
-            <main>
+            <main className="grid-container">
                 <h2>Currently Reading</h2>
                 <hr></hr>
                 <article>
