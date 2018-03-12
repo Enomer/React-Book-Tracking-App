@@ -4,6 +4,7 @@ import escapeRegExp from 'escape-string-regexp'
 
 class Search extends Component {
   state = {
+    BookFeed: [],
     inputChar: '',
     void: 'none',
     alive: 'flex'
@@ -17,11 +18,11 @@ class Search extends Component {
     if (this.state.inputChar)  {
       const match = new RegExp(escapeRegExp(this.state.inputChar), 'i')
       emptySearch = this.state.alive
-      showingBooks = this.props.books.filter(
+      showingBooks = this.props.Books.filter(
         (book) => match.test(book.title)
       )
     } else {
-      showingBooks = this.props.books
+      showingBooks = this.props.Books
     }
     return (
       <div>
@@ -41,7 +42,7 @@ class Search extends Component {
                 <img alt={book.title} src={book.coverURL} style={{height:"250px", padding: "1.7rem"}}/>
               </div>
               <div className="cell grid-x align-center">
-                <select className="cell shrink" defaultValue={book.shelf} onChange={(e) => this.props.changeShelf(e.target.value, book.id)}>
+                <select className="cell shrink" defaultValue={book.shelf} onChange={(e) => this.props.changeShelf(book, e.target.value)}>
                   <option value="none" disabled>Move to...</option>
                   <option value="Currently Reading">Currently Reading</option>
                   <option value="Want to Read">Want to Read</option>
