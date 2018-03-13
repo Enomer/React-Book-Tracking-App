@@ -13,17 +13,17 @@ class Search extends Component {
     this.setState({ inputChar: query })
   }
   render() {
-    let showingBooks
-    let emptySearch = this.state.void
-    if (this.state.inputChar)  {
-      const match = new RegExp(escapeRegExp(this.state.inputChar), 'i')
-      emptySearch = this.state.alive
-      showingBooks = this.props.Books.filter(
-        (book) => match.test(book.title)
-      )
-    } else {
-      showingBooks = this.props.Books
-    }
+    // let showingBooks
+    // let emptySearch = this.state.void              ///REG EXPRESSION maybe try to do on each keypress ? web socket??
+    // if (this.state.inputChar)  {
+    //   const match = new RegExp(escapeRegExp(this.state.inputChar), 'i')
+    //   emptySearch = this.state.alive
+    //   showingBooks = this.props.Books.filter(
+    //     (book) => match.test(book.title)
+    //   )
+    // } else {
+    //   showingBooks = this.props.Books
+    // }
     return (
       <div>
         <div className="large-6-up grid-x align-middle align-center searchPad">
@@ -32,11 +32,13 @@ class Search extends Component {
             type="text"
             placeholder="Search Book"
             value={this.state.inputChar}
+            onKeyPress={e => e.key==='Enter'}
             onChange={(event) => this.inputDetect(event.target.value)}
             />
         </div>
+        {/*
         <ol id="searchList" className="grid-x styling" style={{display: emptySearch, padding: "2rem"}}>
-          {showingBooks.map((book) => (
+            showingBooks.map((book) => (
             <li className={`cell large-4 medium-6 text-center align-center grid-x cr-${book.id}`} key={book.id}>
               <div className="cell large-12">
                 <img alt={book.title} src={book.coverURL} style={{height:"250px", padding: "1.7rem"}}/>
@@ -53,8 +55,9 @@ class Search extends Component {
               <h4 className="cell large-12 small-12">{book.title}</h4>
               <h5 className="cell ">{book.author}</h5>
             </li>
-          ))}
+          ))
         </ol>
+        */}
       </div>
     )
   }
