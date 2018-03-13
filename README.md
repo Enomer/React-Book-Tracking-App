@@ -4,17 +4,18 @@ In this Book tracking mini app,  users select and categorize books they have rea
 
 # To Get Started
 
-**1** clone the repository
-**2** npm install
-**3** npm run dev (equivalent to npm run start) 
+* **1** Make sure you are on boilerplate branch
+* **2** clone the repository
+* **3** npm install
+* **4** npm run dev (equivalent to npm run start) 
 
 ## Features
 
 In this application, the main page displays a list of "shelves" (i.e. categories), each of which contains a number of books. The three shelves are:
 
-Currently Reading
-Want to Read
-Read
+* Currently Reading
+* Want to Read
+* Read
 
 Each book has a control that lets you select the shelf for that book. When you select a different shelf, the book moves there. Note that the default value for the control should always be the current shelf the book is in.
 
