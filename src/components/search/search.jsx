@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import escapeRegExp from 'escape-string-regexp'
-import sortBy from 'sort-by'
 
 class Search extends Component {
   render() {
@@ -12,7 +11,7 @@ class Search extends Component {
         (book) => match.test(book.title)
       )
     } else {
-      showingBooks = this.props.searchedBooks
+      showingBooks = []
     }
 
     return (
@@ -24,7 +23,9 @@ class Search extends Component {
             placeholder="Search Book"
             value={this.props.inputChar}
             onKeyPress={this.props.handleKeyPress}
-            onChange={(event) => this.props.inputDetect(event.target.value)}
+            onChange={(event) => {
+              this.props.inputDetect(event.target.value)}
+            }
           />
       </div>
 
@@ -32,7 +33,6 @@ class Search extends Component {
         {showingBooks.map((book) => (
           <li className={`cell large-4 medium-6 text-center align-center grid-x cr-${book.id}`} key={book.id}>
             <div className="cell large-12">
-              {console.log(book.imageLinks)}
               <img alt={book.title} src={book.imageLinks === undefined ? 'https://fthmb.tqn.com/GJLd_80qHxwJ2OwWjss_VaEUMEI=/768x0/filters:no_upscale()/question_mark-166836001-56af9f3c3df78cf772c6c639.jpg' : book.imageLinks.thumbnail} style={{height:"250px", padding: "1.7rem"}}/>
           </div>
           <div className="cell grid-x large-12 align-center">

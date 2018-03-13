@@ -12,7 +12,8 @@ class App extends Component {
   state = {
     Books: [],
     SearchedBooks: [],
-    inputChar: ''
+    inputChar: '',
+    whichpage: true
   }
   componentDidMount() {
     this.bookFetch()
@@ -34,33 +35,23 @@ class App extends Component {
           (b.length > 0 ?
             this.setState({SearchedBooks: b})
             :
-            this.setState({SearchedBooks:
-              [{title: 'No results',
-              id: 'nothing',
-              imageLinks: {thumbnail: 'https://i.imgur.com/fSXgRaD.png'},
-              authors: ['...']
-            }]})
+            this.setState({SearchedBooks: []})
           )}
         )
       }
       inputDetect = (query) => {
         this.setState({ inputChar: query })
       }
-      handleKeyPress = (event) => {
-        if(event.key === 'Enter'){
-          if (this.state.inputChar.length > 0) {
-            this.searchFetch(this.state.inputChar)
-          }
-        }
-      }
+    
       render() {
+        console.log(this.state.whichpage)
         return (
           <div className="App">
             <header className="App-header">
               <div className="grid-x align-middle align-center">
-                <Link className="cell large-6 small-12 App-title align-self-middle align-self-center text-center" to="/"><h1 className="myreads ">My Reads</h1></Link>
-              <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
-              <AwesomeButton size="large" type="primary">Search</AwesomeButton>
+                <h1 className="cell large-6 small-12 App-title align-self-middle align-self-center text-center myreads" >My Reads</h1>
+              <Link onClick={() => this.setState({whichpage: !this.state.whichpage})} className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to={this.state.whichpage ? '/search' : '/'}>
+              <AwesomeButton  style={{fontWeight: '900'}} size="large" type={this.state.whichpage ? 'primary' : 'secondary'}>{this.state.whichpage ? 'Search' : 'Home'}</AwesomeButton>
           </Link>
         </div>
       </header>
@@ -92,11 +83,10 @@ class App extends Component {
 </article>
 </main>
 }></Route>
-<Route exact path="/search" render={({history}) =>
+<Route exact path='/search' render={({history}) =>
 <Search
   changeShelf={this.updateShelves}
   books={this.state.books}
-  handleKeyPress={this.handleKeyPress}
   inputChar={this.state.inputChar}
   inputDetect={this.inputDetect}
   searchedBooks={this.state.SearchedBooks}
