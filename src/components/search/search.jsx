@@ -34,8 +34,9 @@ class Search extends Component {
             {this.props.searchedBooks.map((book) => (
             <li className={`cell large-4 medium-6 text-center align-center grid-x cr-${book.id}`} key={book.id}>
               <div className="cell large-12">
-                <img alt={book.title} src={book.imageLinks.thumbnail || 'https://fthmb.tqn.com/GJLd_80qHxwJ2OwWjss_VaEUMEI=/768x0/filters:no_upscale()/question_mark-166836001-56af9f3c3df78cf772c6c639.jpg'} style={{height:"250px", padding: "1.7rem"}}/>
-              </div>
+                {console.log(book.imageLinks)}                               {/* why doesnt his logical OR WORK */}
+                <img alt={book.title} src={book.imageLinks === undefined ? 'https://fthmb.tqn.com/GJLd_80qHxwJ2OwWjss_VaEUMEI=/768x0/filters:no_upscale()/question_mark-166836001-56af9f3c3df78cf772c6c639.jpg' : book.imageLinks.thumbnail} style={{height:"250px", padding: "1.7rem"}}/>
+            </div>
               <div className="cell grid-x large-12 align-center">
                 {book.id !== 'nothing' ?
                 <select className="cell shrink" defaultValue="None" onChange={(e) => this.props.changeShelf(book, e.target.value)}>

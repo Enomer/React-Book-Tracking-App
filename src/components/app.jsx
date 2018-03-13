@@ -29,10 +29,10 @@ class App extends Component {
       })
     }
     searchFetch = (input) => {
-      if (input !== 'b') {
         BooksAPI.search(input).then(
           (b) => {
-            (b.length > 1 ?
+            (b.length > 0 ?
+
               this.setState({SearchedBooks: b})
               :
               this.setState({SearchedBooks:
@@ -43,7 +43,6 @@ class App extends Component {
               }]})
             )}
           )
-        }
       }
       inputDetect = (query) => {
         this.setState({ inputChar: query })
@@ -56,7 +55,6 @@ class App extends Component {
         }
       }
       render() {
-        console.log(this.state.inputChar)
         return (
           <div className="App">
             <header className="App-header">
