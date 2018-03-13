@@ -11,14 +11,15 @@ import * as BooksAPI from './api/BooksAPI'
 class App extends Component {
   state = {
     Books: [],
-    SearchedBooks: []
+    SearchedBooks: [],
+    inputChar: ''
   }
   componentDidMount() {
     this.bookFetch()
   }
   bookFetch = () => {
-    BooksAPI.getAll().then((books) => {
-
+    BooksAPI.getAll().then(
+      (books) => {
       this.setState({Books: books})
     })
   }
@@ -29,8 +30,11 @@ class App extends Component {
     })
   }
 
-  searchFetch =() => {
-    //do it
+  searchFetch = (input) => {
+  BooksAPI.search(input).then(
+    (b) => {
+    this.setState({SearchedBooks: b})
+  })
   }
 
 
@@ -53,6 +57,14 @@ class App extends Component {
   // this is what (...book) means, and then replace ONLY the shelf with the newShelf parameter which is e.target.value
   // which is currentlyReading/wantToRead/read and if FALSE then just print out an item in the new map array that just
   // copies the old book
+  inputDetect = (query) => {
+    this.setState({ inputChar: query })
+  }
+  handleKeyPress = (event) => {
+  if(event.key == 'Enter'){
+    this.searchFetch(this.state.inputChar)
+  }
+}
 
   render() {
     console.log(this.state)
@@ -98,6 +110,10 @@ class App extends Component {
       <Search
         changeShelf={this.updateShelves}
         books={this.state.books}
+        handleKeyPress={this.handleKeyPress}
+        inputChar={this.state.inputChar}
+        inputDetect={this.inputDetect}
+        searchedBooks={this.state.SearchedBooks}
       />
     }>
   </Route>
