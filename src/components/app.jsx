@@ -20,103 +20,92 @@ class App extends Component {
   bookFetch = () => {
     BooksAPI.getAll().then(
       (books) => {
-      this.setState({Books: books})
-    })
-  }
-
-  updateShelves = (book, shelf) => {
-    BooksAPI.update(book, shelf).then(() => {
-      this.bookFetch()
-    })
-  }
-
-  searchFetch = (input) => {
-  BooksAPI.search(input).then(
-    (b) => {
-    this.setState({SearchedBooks: b})
-  })
-  }
-
-
-  // changeShelf = (whichShelf, specificId) => {             // takes in two parameters of e.target.value and current book.id
-  // console.log(this.state.books); console.log(specificId) // Always console.log to troubleshoot and learn
-  // let indexthing = this.state.books                    // this variable has stored in it a newly created array
-  //     .map((e) => (e.id))                             // this array is of only each book ID
-  //     .indexOf(specificId)                           //  this indexOf returns index of the book.id(specificId)from the newly mapped array
-  // let newState = this.state                         // NEVER directly modify state, make instead a variable which contains new state
-  // newState.books[indexthing].shelf = whichShelf    //take new state and apply our index of that book to find it
-  //    this.setState({                              // and set it equal to our returned e.target.value (currentlyReading/wantToRead/read)
-  //      books: newState.books
-  //    })
-  // }
-
-  changeShelf = (newShelf,id) =>
-  this.setState({Books:this.state.Books.map(book => book.id === id ? {...book,shelf:newShelf} : book)})
-  // spread operator also look up object.assign vs {...}
-  // map over each book and IF the book.id is true, then print out a new item with all the book's information
-  // this is what (...book) means, and then replace ONLY the shelf with the newShelf parameter which is e.target.value
-  // which is currentlyReading/wantToRead/read and if FALSE then just print out an item in the new map array that just
-  // copies the old book
-  inputDetect = (query) => {
-    this.setState({ inputChar: query })
-  }
-  handleKeyPress = (event) => {
-  if(event.key == 'Enter'){
-    this.searchFetch(this.state.inputChar)
-  }
-}
-
-  render() {
-    console.log(this.state)
-    return (
-      <div className="App">
-        <header className="App-header">
-          <div className="grid-x align-middle align-center">
-            <Link className="cell large-6 small-12 App-title align-self-middle align-self-center text-center" to="/"><h1 className="myreads ">My Reads</h1></Link>
-            <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
-            <AwesomeButton size="large" type="primary">Search</AwesomeButton>
+        this.setState({Books: books})
+      })
+    }
+    updateShelves = (book, shelf) => {
+      BooksAPI.update(book, shelf).then(() => {
+        this.bookFetch()
+      })
+    }
+    searchFetch = (input) => {
+      if (input !== 'b') {
+        BooksAPI.search(input).then(
+          (b) => {
+            (b.length > 1 ?
+              this.setState({SearchedBooks: b})
+              :
+              this.setState({SearchedBooks:
+                [{title: 'No results',
+                id: 'nothing',
+                imageLinks: {thumbnail: 'https://i.imgur.com/fSXgRaD.png'},
+                authors: ['...']
+              }]})
+            )}
+          )
+        }
+      }
+      inputDetect = (query) => {
+        this.setState({ inputChar: query })
+      }
+      handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+          if (this.state.inputChar.length > 0) {
+            this.searchFetch(this.state.inputChar)
+          }
+        }
+      }
+      render() {
+        console.log(this.state.inputChar)
+        return (
+          <div className="App">
+            <header className="App-header">
+              <div className="grid-x align-middle align-center">
+                <Link className="cell large-6 small-12 App-title align-self-middle align-self-center text-center" to="/"><h1 className="myreads ">My Reads</h1></Link>
+              <Link className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to="/search">
+              <AwesomeButton size="large" type="primary">Search</AwesomeButton>
           </Link>
         </div>
       </header>
       <Route exact path="/" render={()=>
-        <main className="grid-container">
-          <h2>Currently Reading</h2>
+          <main className="grid-container">
+            <h2>Currently Reading</h2>
           <hr></hr>
-          <article>
-            <CurrentlyReading
-              changeShelf={this.updateShelves}
-              books={this.state.Books}
-            />
-          </article>
-          <h2>Want To Read</h2>
-          <hr></hr>
-          <article>
-            <Wanttoread
-              changeShelf={this.updateShelves}
-              books={this.state.Books}
-            />
-          </article>
-          <h2 >Read</h2>
-          <hr></hr>
-          <article>
-            <Read
-              changeShelf={this.updateShelves}
-              books={this.state.Books}
-            />
-          </article>
-        </main>
-      }></Route>
-      <Route exact path="/search" render={({history}) =>
-      <Search
+        <article>
+          <CurrentlyReading
+            changeShelf={this.updateShelves}
+            books={this.state.Books}
+          />
+        </article>
+        <h2>Want To Read</h2>
+      <hr></hr>
+    <article>
+      <Wanttoread
         changeShelf={this.updateShelves}
-        books={this.state.books}
-        handleKeyPress={this.handleKeyPress}
-        inputChar={this.state.inputChar}
-        inputDetect={this.inputDetect}
-        searchedBooks={this.state.SearchedBooks}
+        books={this.state.Books}
       />
-    }>
-  </Route>
+    </article>
+    <h2 >Read</h2>
+  <hr></hr>
+<article>
+  <Read
+    changeShelf={this.updateShelves}
+    books={this.state.Books}
+  />
+</article>
+</main>
+}></Route>
+<Route exact path="/search" render={({history}) =>
+<Search
+  changeShelf={this.updateShelves}
+  books={this.state.books}
+  handleKeyPress={this.handleKeyPress}
+  inputChar={this.state.inputChar}
+  inputDetect={this.inputDetect}
+  searchedBooks={this.state.SearchedBooks}
+/>
+}>
+</Route>
 </div>
 );
 }
@@ -124,3 +113,39 @@ class App extends Component {
 
 
 export default App;
+
+
+
+
+
+
+
+// Old ideas
+
+
+// changeShelf = (whichShelf, specificId) => {             // takes in two parameters of e.target.value and current book.id
+// console.log(this.state.books); console.log(specificId) // Always console.log to troubleshoot and learn
+// let indexthing = this.state.books                    // this variable has stored in it a newly created array
+//     .map((e) => (e.id))                             // this array is of only each book ID
+//     .indexOf(specificId)                           //  this indexOf returns index of the book.id(specificId)from the newly mapped array
+// let newState = this.state                         // NEVER directly modify state, make instead a variable which contains new state
+// newState.books[indexthing].shelf = whichShelf    //take new state and apply our index of that book to find it
+//    this.setState({                              // and set it equal to our returned e.target.value (currentlyReading/wantToRead/read)
+//      books: newState.books
+//    })
+// }
+
+
+
+
+
+
+// changeShelf = (newShelf,id) =>
+// this.setState({Books:this.state.Books.map(book => book.id === id ? {...book,shelf:newShelf} : book)})
+
+
+// spread operator also look up object.assign vs {...}
+// map over each book and IF the book.id is true, then print out a new item with all the book's information
+// this is what (...book) means, and then replace ONLY the shelf with the newShelf parameter which is e.target.value
+// which is currentlyReading/wantToRead/read and if FALSE then just print out an item in the new map array that just
+// copies the old book

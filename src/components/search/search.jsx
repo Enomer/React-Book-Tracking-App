@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
-import escapeRegExp from 'escape-string-regexp'
+// import escapeRegExp from 'escape-string-regexp'
 
 
 class Search extends Component {
-  state = {
-    BookFeed: [],
-    void: 'none',
-    alive: 'flex'
-
-  }
-
   render() {
     // let showingBooks
     // let emptySearch = this.state.void              ///REG EXPRESSION maybe try to do on each keypress ? web socket??
@@ -22,6 +15,7 @@ class Search extends Component {
     // } else {
     //   showingBooks = this.props.Books
     // }
+
     return (
       <div>
         <div className="large-6-up grid-x align-middle align-center searchPad">
@@ -33,29 +27,35 @@ class Search extends Component {
             onKeyPress={this.props.handleKeyPress}
             onChange={(event) => this.props.inputDetect(event.target.value)}
             />
+            <p className="cell small-12-up text-center"> Press Enter to Search our database </p>
         </div>
 
-
-        <ol id="searchList" className="grid-x styling" style={{display: 'inherit', padding: "2rem"}}>
+        <ol className="grid-x styling align-center">
             {this.props.searchedBooks.map((book) => (
             <li className={`cell large-4 medium-6 text-center align-center grid-x cr-${book.id}`} key={book.id}>
               <div className="cell large-12">
-                <img alt={book.title} src={book.imageLinks.smallThumbnail} style={{height:"250px", padding: "1.7rem"}}/>
+                <img alt={book.title} src={book.imageLinks.thumbnail || 'https://fthmb.tqn.com/GJLd_80qHxwJ2OwWjss_VaEUMEI=/768x0/filters:no_upscale()/question_mark-166836001-56af9f3c3df78cf772c6c639.jpg'} style={{height:"250px", padding: "1.7rem"}}/>
               </div>
-              <div className="cell grid-x align-center">
+              <div className="cell grid-x large-12 align-center">
+                {book.id !== 'nothing' ?
                 <select className="cell shrink" defaultValue="None" onChange={(e) => this.props.changeShelf(book, e.target.value)}>
-                  <option value="none" disabled>Move to...</option>
+                  <option value="none" >Move to...</option>
                   <option value="currentlyReading">Currently Reading</option>
                   <option value="wantToRead">Want to Read</option>
                   <option value="read">Read</option>
                   <option value="none">None</option>
                 </select>
+                :
+                <p>oh wellz</p>
+              }
               </div>
               <h4 className="cell large-12 small-12">{book.title}</h4>
-              <h5 className="cell ">{book.author}</h5>
+              <h5 className="cell ">{book.authors}</h5>
             </li>
           ))
         }
+
+
         </ol>
 
       </div>
