@@ -29,20 +29,19 @@ class App extends Component {
       })
     }
     searchFetch = (input) => {
-        BooksAPI.search(input).then(
-          (b) => {
-            (b.length > 0 ?
-
-              this.setState({SearchedBooks: b})
-              :
-              this.setState({SearchedBooks:
-                [{title: 'No results',
-                id: 'nothing',
-                imageLinks: {thumbnail: 'https://i.imgur.com/fSXgRaD.png'},
-                authors: ['...']
-              }]})
-            )}
-          )
+      BooksAPI.search(input).then(
+        (b) => {
+          (b.length > 0 ?
+            this.setState({SearchedBooks: b})
+            :
+            this.setState({SearchedBooks:
+              [{title: 'No results',
+              id: 'nothing',
+              imageLinks: {thumbnail: 'https://i.imgur.com/fSXgRaD.png'},
+              authors: ['...']
+            }]})
+          )}
+        )
       }
       inputDetect = (query) => {
         this.setState({ inputChar: query })
@@ -101,6 +100,7 @@ class App extends Component {
   inputChar={this.state.inputChar}
   inputDetect={this.inputDetect}
   searchedBooks={this.state.SearchedBooks}
+  searchIt={this.searchFetch}
 />
 }>
 </Route>
