@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import escapeRegExp from 'escape-string-regexp'
 
 class Search extends Component {
+  componentDidMount() {
+    this.props.searchState()
+  }
   render() {
     let showingBooks
     if (this.props.inputChar)  {

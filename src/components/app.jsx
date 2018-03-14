@@ -13,10 +13,11 @@ class App extends Component {
     Books: [],
     SearchedBooks: [],
     inputChar: '',
-    whichpage: true
+    whichpage: null,
+    location: '/'
   }
   componentDidMount() {
-    this.bookFetch()
+    this.bookFetch();
   }
   bookFetch = () => {
     BooksAPI.getAll().then(
@@ -42,60 +43,74 @@ class App extends Component {
       inputDetect = (query) => {
         this.setState({ inputChar: query })
       }
-    
+      searchState = () => {
+        this.setState ({ whichpage: 'true'})
+      }
+
       render() {
-        console.log(this.state.whichpage)
+
         return (
           <div className="App">
             <header className="App-header">
               <div className="grid-x align-middle align-center">
-                <h1 className="cell large-6 small-12 App-title align-self-middle align-self-center text-center myreads" >My Reads</h1>
-              <Link onClick={() => this.setState({whichpage: !this.state.whichpage})} className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center" to={this.state.whichpage ? '/search' : '/'}>
-              <AwesomeButton  style={{fontWeight: '900'}} size="large" type={this.state.whichpage ? 'primary' : 'secondary'}>{this.state.whichpage ? 'Search' : 'Home'}</AwesomeButton>
-          </Link>
-        </div>
-      </header>
-      <Route exact path="/" render={()=>
-          <main className="grid-container">
-            <h2>Currently Reading</h2>
-          <hr></hr>
-        <article>
-          <CurrentlyReading
+                <h1 className="cell large-6 small-12 App-title align-self-middle align-self-center text-center myreads" >
+                  My Reads
+                </h1>
+                <Link onClick={() => this.setState({whichpage: !this.state.whichpage})}
+                  className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center"
+                  to={this.state.whichpage ? '/' : '/search'}>
+                <AwesomeButton
+                  style={{fontWeight: '900'}}
+                  size="large"
+                  type={this.state.whichpage ?
+                    'primary' : 'secondary'}>
+                    {this.state.whichpage ? 'Search' : 'Home'}
+                  </AwesomeButton>
+              </Link>
+            </div>
+          </header>
+          <Route exact path="/" render={()=>
+            <main className="grid-container">
+              <h2>Currently Reading</h2>
+              <hr></hr>
+              <article>
+                <CurrentlyReading
+                  changeShelf={this.updateShelves}
+                  books={this.state.Books}
+                />
+              </article>
+              <h2>Want To Read</h2>
+              <hr></hr>
+              <article>
+                <Wanttoread
+                  changeShelf={this.updateShelves}
+                  books={this.state.Books}
+                />
+              </article>
+              <h2 >Read</h2>
+              <hr></hr>
+              <article>
+                <Read
+                  changeShelf={this.updateShelves}
+                  books={this.state.Books}
+                />
+              </article>
+            </main>
+          }></Route>
+          <Route exact path='/search' render={({history}) =>
+          <Search
+            searchState={this.searchState}
             changeShelf={this.updateShelves}
-            books={this.state.Books}
+            books={this.state.books}
+            inputChar={this.state.inputChar}
+            inputDetect={this.inputDetect}
+            searchedBooks={this.state.SearchedBooks}
+            searchIt={this.searchFetch}
           />
-        </article>
-        <h2>Want To Read</h2>
-      <hr></hr>
-    <article>
-      <Wanttoread
-        changeShelf={this.updateShelves}
-        books={this.state.Books}
-      />
-    </article>
-    <h2 >Read</h2>
-  <hr></hr>
-<article>
-  <Read
-    changeShelf={this.updateShelves}
-    books={this.state.Books}
-  />
-</article>
-</main>
-}></Route>
-<Route exact path='/search' render={({history}) =>
-<Search
-  changeShelf={this.updateShelves}
-  books={this.state.books}
-  inputChar={this.state.inputChar}
-  inputDetect={this.inputDetect}
-  searchedBooks={this.state.SearchedBooks}
-  searchIt={this.searchFetch}
-/>
-}>
-</Route>
-</div>
-);
+        }>
+      </Route>
+    </div>
+  );
 }
 }
 
