@@ -5,7 +5,6 @@ class Search extends Component {
 
   render() {
     let showingBooks;
-
     if (this.props.inputChar)  {
       this.props.searchIt(this.props.inputChar)
       const match = new RegExp(escapeRegExp(this.props.inputChar), 'i')
@@ -46,18 +45,16 @@ class Search extends Component {
                     <option value="read">Read</option>
                     <option value="none">None</option>
                   </select>
-              </div>
-              <h4 className="cell large-12 small-12">{book.title}</h4>
-              <h5 className="cell ">{book.authors}</h5>
-            </li>
-
-        )}
-      )}
-      </ol>
-
-    </div>
-  )
-}
+                </div>
+                <h4 className="cell large-12 small-12">{book.title}</h4>
+                <h5 className="cell ">{book.authors}</h5>
+              </li>
+            )}
+          )}
+        </ol>
+      </div>
+    )
+  }
 }
 
 export default Search
