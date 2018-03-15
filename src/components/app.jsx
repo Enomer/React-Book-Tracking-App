@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Wanttoread from './shelves/wanttoread';
 import CurrentlyReading from './shelves/currentlyreading';
 import Read from './shelves/read';
-import { Link } from 'react-router-dom';
+import { Link,withRouter } from 'react-router-dom';
 import { AwesomeButton } from 'react-awesome-button';
 import { Route } from 'react-router-dom'
 import Search from './search/search'
@@ -18,36 +18,47 @@ class App extends Component {
   }
   componentDidMount() {
     this.bookFetch();
+    BooksAPI.search('Linux').then(response => {
+      console.log(response)
+    })
+    BooksAPI.getAll().then(response => {
+      console.log(response)
+    })
   }
+
   bookFetch = () => {
     BooksAPI.getAll().then(
       (books) => {
-        this.setState({Books: books})
+      this.setState({Books: books})
       })
     }
-    updateShelves = (book, shelf) => {
-      BooksAPI.update(book, shelf).then(() => {
-        this.bookFetch()
-      })
+
+  updateShelves = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(() => {
+      this.bookFetch()
+    })
+  }
+  searchFetch = (input) => {
+    BooksAPI.search(input).then(
+      (b) => {
+        (b.length > 0 ?
+          this.setState({SearchedBooks: b})
+          :
+          null
+          // this.setState({Books: []})
+        )}
+      )
     }
-    searchFetch = (input) => {
-      BooksAPI.search(input).then(
-        (b) => {
-          (b.length > 0 ?
-            this.setState({SearchedBooks: b})
-            :
-            this.setState({SearchedBooks: []})
-          )}
-        )
-      }
-      inputDetect = (query) => {
-        this.setState({ inputChar: query })
-      }
-      searchState = () => {
-        this.setState ({ whichpage: 'true'})
-      }
+  inputDetect = (query) => {
+    this.setState({ inputChar: query })
+  }
+  searchState = () => {
+    this.setState ({ whichpage: 'true'})
+  }
 
       render() {
+        const {location} = this.props
+        const isHome = location.pathname === '/'
 
         return (
           <div className="App">
@@ -56,24 +67,24 @@ class App extends Component {
                 <h1 className="cell large-6 small-12 App-title align-self-middle align-self-center text-center myreads" >
                   My Reads
                 </h1>
-                <Link onClick={() => this.setState({whichpage: !this.state.whichpage})}
+                <Link
                   className="cell shrink align-self-middle large-6 small-12 align-self-center text-center align-center"
-                  to={this.state.whichpage ? '/' : '/search'}>
+                  to={!isHome ? '/' : '/search'}>
                 <AwesomeButton
                   style={{fontWeight: '900'}}
                   size="large"
-                  type={this.state.whichpage ?
-                    'primary' : 'secondary'}>
-                    {this.state.whichpage ? 'Search' : 'Home'}
+                  type={!isHome ?
+                    'secondary' : 'primary'}>
+                    {!isHome ? 'Home' : 'Search'}
                   </AwesomeButton>
               </Link>
             </div>
           </header>
           <Route exact path="/" render={()=>
-            <main className="grid-container">
+            <main style={{padding:"3rem"}} className="grid-container">
               <h2>Currently Reading</h2>
               <hr></hr>
-              <article>
+              <article style={{padding:'2.5rem 0'}}>
                 <CurrentlyReading
                   changeShelf={this.updateShelves}
                   books={this.state.Books}
@@ -81,7 +92,7 @@ class App extends Component {
               </article>
               <h2>Want To Read</h2>
               <hr></hr>
-              <article>
+              <article style={{padding:'2.5rem 0'}}>
                 <Wanttoread
                   changeShelf={this.updateShelves}
                   books={this.state.Books}
@@ -89,7 +100,7 @@ class App extends Component {
               </article>
               <h2 >Read</h2>
               <hr></hr>
-              <article>
+              <article style={{padding:'2.5rem 0'}}>
                 <Read
                   changeShelf={this.updateShelves}
                   books={this.state.Books}
@@ -101,7 +112,8 @@ class App extends Component {
           <Search
             searchState={this.searchState}
             changeShelf={this.updateShelves}
-            books={this.state.books}
+            books={this.state.Books}
+            searchedBooks={this.state.SearchedBooks}
             inputChar={this.state.inputChar}
             inputDetect={this.inputDetect}
             searchedBooks={this.state.SearchedBooks}
@@ -115,9 +127,10 @@ class App extends Component {
 }
 
 
-export default App;
+export default withRouter(App);
 
-
+//look up higher order components
+//what is an HOC
 
 
 
