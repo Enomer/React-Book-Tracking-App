@@ -4,10 +4,9 @@ In this Book tracking mini app,  users select and categorize books they have rea
 
 # To Get Started
 
-* **1** Make sure you are on boilerplate branch
-* **2** clone the repository
-* **3** npm install
-* **4** npm run dev (equivalent to npm run start) 
+* **1** clone the repository
+* **2** npm install
+* **3** npm run dev (equivalent to npm run start) 
 
 ## Features
 
